@@ -1,18 +1,18 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         res = []
-        subset = []
+        subTree = []
 
-        def dfs(index):
+        def helper(index):
             if index >= len(nums):
-                res.append(subset.copy())
+                res.append(subTree.copy())
                 return
             
-            subset.append(nums[index])
-            dfs(index + 1)
+            subTree.append(nums[index])
+            helper(index + 1)
 
-            subset.pop()
-            dfs(index + 1)
+            subTree.pop()
+            helper(index + 1)
         
-        dfs(0)
+        helper(0)
         return res
