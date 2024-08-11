@@ -1,22 +1,22 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = []
-        subSet = []
+        subset = []
 
-        def helper(index, total):
-            if total == target:
-                res.append(subSet.copy())
+        def helper(index, target, curTotal):
+            if index >= len(candidates) or curTotal > target:
+                return
+
+            if curTotal == target:
+                res.append(subset.copy())
                 return
             
-            if index >= len(candidates) or total > target:
-                return
+            subset.append(candidates[index])
+            helper(index, target, curTotal + candidates[index])
 
-            # One subtree, we stay at the index and keep adding
-            subSet.append(candidates[index])
-            helper(index, total + candidates[index])
-            subSet.pop()
-            # Another subtree we move the index up one
-            helper(index + 1, total)
+            subset.pop()
+            helper(index + 1, target, curTotal)
         
-        helper(0, 0)
+        helper(0, target, 0)
         return res
+            
