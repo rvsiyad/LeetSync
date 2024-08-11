@@ -1,17 +1,17 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         res = []
-        subTree = []
+        subset = []
 
         def helper(index):
             if index >= len(nums):
-                res.append(subTree.copy())
+                res.append(subset.copy())
                 return
             
-            subTree.append(nums[index])
+            subset.append(nums[index])
             helper(index + 1)
 
-            subTree.pop()
+            subset.pop()
             helper(index + 1)
         
         helper(0)
