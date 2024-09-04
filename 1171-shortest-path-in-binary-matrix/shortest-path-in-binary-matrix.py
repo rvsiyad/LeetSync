@@ -6,9 +6,9 @@ class Solution:
             return -1
 
         queue = collections.deque()
-        visited = set()
         queue.append((0,0))
-        visited.add((0,0))
+
+        grid[0][0] = 1
 
         length = 1
 
@@ -16,25 +16,20 @@ class Solution:
             for i in range(len(queue)):
                 r, c = queue.popleft()
 
-                if r == ROWS -1 and c == COLUMNS -1 and grid[r][c] == 0:
+                if r == ROWS -1 and c == COLUMNS -1:
                     return length
 
-                if r == ROWS - 1 and c == COLUMNS -1 and grid[r][c] == 1:
-                    return -1 
+                directions = [[0,1],[0,-1], [1,0], [-1,0], [1,1], [1,-1], [-1, 1], [-1,-1]]
 
-                neighbours = [[0,1], [0,-1], [1, 0], [-1,0], [1,1], [1, -1], [-1, 1], [-1, -1]]
-
-                for dr, dc in neighbours:
+                for dr, dc in directions:
                     newRow = r + dr
                     newColumn = c + dc
 
                     if newRow < 0 or newColumn < 0 or newRow == ROWS or newColumn == COLUMNS or grid[newRow][newColumn] == 1:
                         continue
                     
-                    if (newRow, newColumn) not in visited:
-                        queue.append((newRow, newColumn))
-                        visited.add((newRow, newColumn))
-            
+                    grid[newRow][newColumn] = 1
+                    queue.append((newRow, newColumn))
+
             length += 1
-        
         return -1
