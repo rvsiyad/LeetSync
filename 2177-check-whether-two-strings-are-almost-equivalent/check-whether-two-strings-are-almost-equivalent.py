@@ -1,28 +1,14 @@
 class Solution:
     def checkAlmostEquivalent(self, word1: str, word2: str) -> bool:
-        # Create two hashmaps/dicts
-        # These will hold the letters as values
-        # Go over both in one loop,
-        # Add key and count the occurences
-
-        word1Dic, word2Dic = {}, {}
+        freq = {}
 
         for i in range(len(word1)):
-            word1Dic[word1[i]] = 1 + word1Dic.get(word1[i], 0)
-            word2Dic[word2[i]] = 1 + word2Dic.get(word2[i], 0)
+            freq[word1[i]] = 1 + freq.get(word1[i], 0)
+            freq[word2[i]] = freq.get(word2[i], 0) - 1
 
-        for key, value in word1Dic.items():
-            if key not in word2Dic:
-                if value > 3:
-                    return False
-            elif abs(value - word2Dic[key]) > 3:
+        
+        for i in freq.values():
+            if abs(i) > 3:
                 return False
         
-        for key, value in word2Dic.items():
-            if key not in word1Dic:
-                if value > 3:
-                    return False
-            elif abs(value - word1Dic[key]) > 3:
-                return False
-
         return True
