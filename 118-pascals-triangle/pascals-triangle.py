@@ -6,12 +6,9 @@ class Solution:
         if numRows == 1:
             return [[1]]
         
-        if numRows == 2:
-            return [[1], [1,1]]
-        
-        rows = 2
+        rows = 1
 
-        res = [[1], [1,1]]
+        res = [[1]]
     
         while rows < numRows:
             lastRow = res[-1]
