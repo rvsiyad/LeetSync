@@ -4,7 +4,7 @@ class Solution:
         L = 0
         R = len(sAsList) - 1
 
-        vowels = ['a','e','i','o','u', 'A','E','I','O','U']
+        vowels = set(['a','e','i','o','u', 'A','E','I','O','U'])
 
         print("Before while", sAsList)
 
