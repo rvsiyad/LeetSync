@@ -4,18 +4,34 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
+
 class Solution:
     def reverseOddLevels(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def dfs(nodeL, nodeR, level):
-            if not nodeL or not nodeR:
-                return None
-            
+        # Take a BFS approach, count the level we are at, if level is odd, we swap children
+        queue = deque()
+        queue.append(root)
+
+        level = 0
+
+        while queue:
             if level % 2 != 0:
-                nodeL.val, nodeR.val = nodeR.val, nodeL.val
+                L = 0
+                R = len(queue) - 1
+                while L < R:
+                    queue[L].val, queue[R].val = queue[R].val, queue[L].val
+                    R -= 1
+                    L += 1
+
+            for i in range(len(queue)):
+                node = queue.popleft()
+                
+                if node.right:
+                    queue.append(node.right)
+                
+                if node.left:
+                    queue.append(node.left)
             
-            dfs(nodeL.left, nodeR.right, level + 1)
-            dfs(nodeL.right, nodeR.left, level + 1)
-
-        dfs(root.left, root.right, 1)
-
+            level += 1
+        
         return root
