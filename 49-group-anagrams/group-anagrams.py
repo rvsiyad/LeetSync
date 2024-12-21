@@ -11,10 +11,8 @@ class Solution:
                 groupedAnagrams[original].append(s)
             else:
                 groupedAnagrams[original] = [s]
-        
-        print(groupedAnagrams)
 
         for key, value in groupedAnagrams.items():
             result.append(value)
         
-        return result
+        return [i for i in groupedAnagrams.values()]
