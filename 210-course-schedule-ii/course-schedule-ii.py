@@ -1,52 +1,41 @@
 class Solution:
-    """
-    1. First step we should take is to create an adj list for courses numbered from 0 - numCourses - 1
-    2. Add courses to adjList by populating with the prereqs - adjList[crs].append(pre)
-    3. Create a visited set() if we encounter a cycle, we know there is a loop, impossible to finish all courses.
-    4. Now we can DFS through the courses, if we find a course with no prereqs, then we can add to results array.
-    5. If we encounter a visited course, return empty array.
-    """
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        adjList = {i : [] for i in range(numCourses)}
+        # Similar to CS-1, but this time we add to the results array each time we find a course than has been completed. Create a seperate set to see if in the courses completed array, if not in add else continue.
+        crsToPre = {i : [] for i in range(numCourses)}
 
         for crs, pre in prerequisites:
-            adjList[crs].append(pre)
+            crsToPre[crs].append(pre)
         
-        visited, inRes = set(), set()
+        visited = set()
+        inResult = set()
         result = []
 
-        # We can loop through all courses?
-        # Create a DFS func?
-        # We can clear the courses once we know we can reach them? 
-        def dfs(crs):
-            if crs in visited or crs not in adjList:
+        def dfs(course):
+            if course in visited or course not in crsToPre:
                 return False
             
-            if adjList[crs] == []:
-                if crs not in inRes:
-                    result.append(crs)
-                    inRes.add(crs)
-                
+            if crsToPre[course] == []:
+                if course not in inResult:
+                    result.append(course)
+                    inResult.add(course)
                 return True
             
-            visited.add(crs)
+            visited.add(course)
 
-            for pre in adjList[crs]:
+            for pre in crsToPre[course]:
                 if not dfs(pre):
                     return False
             
-            visited.remove(crs)
-            if crs not in inRes:
-                inRes.add(crs)
-                result.append(crs)
+            visited.remove(course)
+
+            if course not in inResult:
+                result.append(course)
+                inResult.add(course)
 
             return True
-
+        
         for i in range(numCourses):
             if not dfs(i):
                 return []
         
         return result
-            
-
-
