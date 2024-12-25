@@ -1,28 +1,20 @@
 class Solution:
     def islandPerimeter(self, grid: List[List[int]]) -> int:
-        def dfs(r, c, visited):
-            ROWS, COLUMNS = len(grid), len(grid[0])
+        ROWS, COLS = len(grid), len(grid[0])
+        visited = set()
 
-            if r < 0 or c < 0 or r == ROWS or c == COLUMNS or grid[r][c] == 0:
-                return 1
-            
-            if (r,c) in visited:
+        def dfs(row, col):
+            if (row, col) in visited:
                 return 0
             
-            visited.add((r,c))
+            if row < 0 or row >= ROWS or col < 0 or col >= COLS or grid[row][col] == 0:
+                return 1
+            
+            visited.add((row, col))
 
-            perimeter = 0
+            return dfs(row + 1, col) + dfs(row - 1, col) + dfs(row, col + 1) + dfs(row, col - 1)
 
-            perimeter += dfs(r + 1, c , visited)
-            perimeter += dfs(r - 1, c , visited)
-            perimeter += dfs(r, c -1 , visited)
-            perimeter += dfs(r, c + 1 , visited)
-
-            return perimeter
-
-        for r in range(len(grid)):
-            for c in range(len(grid[0])):
-                if grid[r][c] == 1:
-                    return dfs(r, c, set())
-        
-        return 0
+        for row in range(ROWS):
+            for col in range(COLS):
+                if grid[row][col] == 1:
+                    return dfs(row, col)
