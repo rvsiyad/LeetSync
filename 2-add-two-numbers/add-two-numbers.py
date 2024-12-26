@@ -16,14 +16,10 @@ class Solution:
         while l2Pointer:
             l2String += str(l2Pointer.val)
             l2Pointer = l2Pointer.next
-        print(l1String)
-        print(l2String)
-
+    
         l1String = l1String[::-1]
         l2String = l2String[::-1]
 
-        print(l1String)
-        print(l2String)
 
         newTotal = int(l1String) + int(l2String)
         newTotal = str(newTotal)
