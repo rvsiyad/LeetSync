@@ -34,7 +34,7 @@ class Solution:
     
     def convert_to_doubly_linked_list(self, node):
         if not node:
-            return
+            return None
             
         self.convert_to_doubly_linked_list(node.left)
 
