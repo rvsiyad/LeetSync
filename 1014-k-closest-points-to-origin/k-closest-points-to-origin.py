@@ -1,40 +1,20 @@
+import heapq
+
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
-        dic = {}
-        minHeap = []
+        # We use a heap to keep track of the closest to points 0
+        # We keep the heap at size k, pop when over k
+        # Each point in points, we square the x and y cooirdinates and add toegther, first making them absolute?
+        # Add to heap as tuple, first the distance from 0,0 and then the coordinates.
+        heap = []
 
-        for i in points:
-            x = i[0]
-            y = i[1]
+        for x, y in points:
+            distanceFromZero = pow(abs(x), 2) + pow(abs(y), 2)
 
-            eucDis = math.sqrt((x ** 2) + (y ** 2))
+            heapq.heappush(heap, (- distanceFromZero, [x, y]))
 
-            minHeap.append(eucDis)
+            if len(heap) > k:
+                heapq.heappop(heap)
 
-            if eucDis in dic:
-                arr = dic[eucDis]
-                arr.append(i)
-                dic[eucDis] = arr
-            else:
-                dic[eucDis] = [i]
-            
-        
-        # print(dic)
+        return [coordinates for distance, coordinates in heap]
 
-        heapq.heapify(minHeap)
-
-        res = []
-
-        while k > 0:
-            value = heapq.heappop(minHeap)
-            matching = dic[value]
-
-            if len(matching) > 1:
-                res.append(matching.pop())
-            else:
-                res.append(matching.pop())
-            
-            k -= 1
-        
-        print(res)
-        return res
