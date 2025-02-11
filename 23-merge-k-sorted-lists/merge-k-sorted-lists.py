@@ -14,11 +14,15 @@ class Solution:
         # Pop two from end of the list? Merge them and add back to list?
 
         while len(lists) > 1:
-            l1, l2 = lists.pop(), lists.pop()
+            mergedList = []
 
-            mergedList = self.mergeTwoLists(l1, l2)
+            for i in range(0, len(lists), 2):
+                l1 = lists[i]
+                l2 = lists[i + 1] if i + 1 < len(lists) else None
 
-            lists.append(mergedList)
+                mergedList.append(self.mergeTwoLists(l1, l2))
+
+            lists = mergedList
         
         return lists[0]
     
