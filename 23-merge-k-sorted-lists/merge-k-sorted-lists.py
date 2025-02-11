@@ -5,41 +5,49 @@
 #         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        if not lists or len(lists) == 0:
+        if len(lists) == 0:
             return None
         
+        if len(lists) == 1:
+            return lists[0]
+        # We can basically do a sorting algorithm like merge sort. Take each list and its neighbour, keep merging them.
+        # Pop two from end of the list? Merge them and add back to list?
+
         while len(lists) > 1:
-            mergedLists = []
+            l1, l2 = lists.pop(), lists.pop()
 
-            for i in range(0, len(lists), 2):
-                l1 = lists[i]
-                l2 = lists[i + 1] if i + 1 < len(lists) else None
+            mergedList = self.mergeTwoLists(l1, l2)
 
-                mergedLists.append(self.mergeLists(l1, l2))
-
-            lists = mergedLists
+            lists.append(mergedList)
         
         return lists[0]
+    
+    def mergeTwoLists(self, l1, l2):
+        if not l1:
+            return l2
+        
+        if not l2:
+            return l1
+        
+        l1P, l2P = l1, l2
 
-    def mergeLists(self, l1, l2):
-        dummyNode = ListNode(0, None)
+        dummyNode = ListNode()
         curr = dummyNode
 
-        while l1 and l2:
-            if l1.val < l2.val:
-                curr.next = l1
-                l1 = l1.next
-                
+        while l1P and l2P:
+            if l1P.val < l2P.val:
+                curr.next = l1P
+                l1P = l1P.next
             else:
-                curr.next = l2
-                l2 = l2.next
-
+                curr.next = l2P
+                l2P = l2P.next
+            
             curr = curr.next
         
-        if l1:
-            curr.next = l1
-        elif l2:
-            curr.next = l2
+        if l1P:
+            curr.next = l1P
+        
+        if l2P:
+            curr.next = l2P
         
         return dummyNode.next
-        
