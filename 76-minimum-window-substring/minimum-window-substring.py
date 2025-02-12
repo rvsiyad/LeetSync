@@ -1,33 +1,37 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        
-        tCount, sCount = {}, {}
+        # Take the count of each t character
+        tCount = collections.defaultdict(int)
+        sCount = collections.defaultdict(int)
 
-        for c in t:
-            tCount[c] = 1 + tCount.get(c, 0)
+        for char in t:
+            tCount[char] += 1
         
-        res, minLength, have, need = [-1, -1], float("inf"), 0, len(tCount)
+        need = len(tCount)
+        have = 0
+        string = ""
+        minLength = float("inf")
 
         L = 0
 
         for R in range(len(s)):
-            sCount[s[R]] = 1 + sCount.get(s[R], 0)
+            sCount[s[R]] += 1
 
-            if s[R] in tCount and sCount[s[R]] == tCount[s[R]]:
+            if sCount[s[R]] == tCount[s[R]]:
                 have += 1
             
-            while have == need:
-                if (R - L + 1) < minLength:
-                    res = [L, R]
-                    minLength = (R - L + 1)
-
+            while have >= need:
+                currentLength = R - L + 1
+            
+                if currentLength < minLength:
+                    minLength = currentLength
+                    string = s[L: R + 1]
+                
                 sCount[s[L]] -= 1
 
-                if s[L] in tCount and sCount[s[L]] < tCount[s[L]]:
+                if sCount[s[L]] < tCount[s[L]]:
                     have -= 1
-                
+
                 L += 1
         
-        start, end = res
-
-        return s[start:end+ 1] if minLength != float("inf") else ""
+        return string
