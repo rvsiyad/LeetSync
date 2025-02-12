@@ -6,31 +6,46 @@ class Solution:
         R = len(nums) - 1
 
         # Find the target and then we can search while loop to find the left most and right most occurences?
-        def binarySearch(nums, target, leftBias):
-            L = 0
-            R = len(nums) - 1
-
-            i = -1
-
-            while L <= R:
-                m = (L + R) // 2
-
-                if nums[m] > target:
-                    R = m - 1
-                elif nums[m] < target:
-                    L = m + 1
-                else:
-                    i = m
-                    if leftBias:
-                        R = m - 1
-                    else:
-                        L = m + 1
-
-            return i
         
-        start = binarySearch(nums, target, True)
-        end = binarySearch(nums, target, False)
+        startIndex = self.findFirstElement(nums, target)
+        endIndex = self.findLastElement(nums, target)
             
-        return [start, end]
+        return [startIndex, endIndex]
 
+    def findFirstElement(self, nums, target):
+        L = 0
+        R = len(nums) - 1
 
+        while L <= R:
+            m = (L + R) // 2
+
+            if nums[m] == target:
+                if m == 0 or nums[m] != nums[m - 1]:
+                    return m
+                else:
+                    R = m - 1
+            elif nums[m] > target:
+                R = m - 1
+            else:
+                L = m + 1
+        
+        return -1
+            
+    def findLastElement(self, nums, target):
+        L = 0
+        R = len(nums) - 1
+
+        while L <= R:
+            m = (L + R) // 2
+
+            if nums[m] == target:
+                if m == len(nums) - 1 or nums[m] != nums[m + 1]:
+                    return m
+                else:
+                    L = m + 1
+            elif nums[m] > target:
+                R = m - 1
+            else:
+                L = m + 1
+        
+        return -1
