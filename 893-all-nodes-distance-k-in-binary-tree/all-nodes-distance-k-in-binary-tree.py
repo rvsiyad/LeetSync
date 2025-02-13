@@ -30,31 +30,25 @@ class Solution:
                 dfs(node.right)
         
         dfs(root)
-        # Now we have all the nodes, we need to BFS to k distance, add those nodes to result, we also do not want to revist nodes
+        # Now we have all the nodes, we need to DFS to k distance, add those nodes to result, we also do not want to revist nodes
 
-        queue = collections.deque()
-
-        queue.append((target, 0))
         visited = set()
         visited.add(target)
-
+    
         res = []
 
-        while queue:
-            node, distance = queue.popleft()
-
+        def findKDistanceNodes(node, distance):    
             if distance == k:
                 res.append(node.val)
+                return
+            
+            for nei in connectedNodes[node]:
+                if nei not in visited:
+                    visited.add(nei)
+                    findKDistanceNodes(nei, distance + 1)
 
-            else:
-                for nei in connectedNodes[node]:
-                    if nei not in visited:
-                        queue.append((nei, distance + 1))
-                        visited.add(nei)
-
-        
+        findKDistanceNodes(target, 0)
         return res
-
 
 
             
