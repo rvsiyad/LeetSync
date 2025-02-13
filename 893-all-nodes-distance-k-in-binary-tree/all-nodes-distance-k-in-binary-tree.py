@@ -13,25 +13,6 @@ class Solution:
         # We need to find all nodes connected to the current node.
         # We can do this by creating an adjList of the currentNode and its connections
         connectedNodes = collections.defaultdict(list)
-        queue = collections.deque()
-
-        queue.append(root)
-
-        while queue:
-            node = queue.popleft()
-
-            if node.left:
-                connectedNodes[node].append(node.left)
-                connectedNodes[node.left].append(node)
-
-                queue.append(node.left)
-
-            if node.right:
-                connectedNodes[node].append(node.right)
-                connectedNodes[node.right].append(node)
-
-                queue.append(node.right)
-
 
         # DFS to create the adjList and then BFS to keep to distance of k?
         def dfs(node):
@@ -64,6 +45,7 @@ class Solution:
 
             if distance == k:
                 res.append(node.val)
+
             else:
                 for nei in connectedNodes[node]:
                     if nei not in visited:
