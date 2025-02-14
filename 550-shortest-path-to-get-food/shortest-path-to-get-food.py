@@ -15,6 +15,7 @@ class Solution(object):
             for col in range(COLS):
                 if grid[row][col] == "*":
                     queue.append((row, col))
+                    break
 
         while queue:
             for i in range(len(queue)):
