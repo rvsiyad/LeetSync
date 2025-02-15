@@ -1,34 +1,28 @@
-"""
-firList = [[0,2],[5,10],[13,23],[24,25]]
-secList = [[1,5],[8,12],[15,24],[25,26]]
+class Solution(object):
+    def intervalIntersection(self, firstList, secondList):
+        """
+        :type firstList: List[List[int]]
+        :type secondList: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        l1, l2 = 0, 0
 
-Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
-
-Meeting overlaps times are inclusive
-
-Can use a two pointer approach, since sorted, move pointer is end time is smaller than start time.
-Each iteration, add overlapping times to a result array.
-"""
-class Solution:
-    def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
         result = []
 
-        i, j = 0, 0
+        while l1 < len(firstList) and l2 < len(secondList):
+            firstStart, firstEnd = firstList[l1]
+            secondStart, secondEnd = secondList[l2]
 
-        while i < len(firstList) and j < len(secondList):
-            iStartTime, iEndTime = firstList[i]
-            jStartTime, jEndTime = secondList[j]
+            if firstEnd >= secondStart and secondEnd >= firstStart:
+                result.append([max(firstStart, secondStart), min(firstEnd, secondEnd)])
 
-            if iStartTime > jEndTime:
-                j += 1
-            elif jStartTime > iEndTime:
-                i += 1
-            else:
-                result.append([max(iStartTime, jStartTime), min(iEndTime, jEndTime)])
-
-                if iEndTime > jEndTime:
-                    j += 1
+                if firstEnd > secondEnd:
+                    l2 += 1
                 else:
-                    i += 1
-
+                    l1 += 1
+            elif firstEnd > secondEnd:
+                l2 += 1
+            else:
+                l1 += 1
+        
         return result
