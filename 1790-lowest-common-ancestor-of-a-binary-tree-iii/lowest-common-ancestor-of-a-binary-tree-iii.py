@@ -8,12 +8,15 @@ class Node:
         self.parent = None
 """
 
-class Solution:
-    def lowestCommonAncestor(self, p: 'Node', q: 'Node') -> 'Node':
-        pCopy, qCopy = p, q
+class Solution(object):
+    def lowestCommonAncestor(self, p, q):
+        """
+        :type node: Node
+        :rtype: Node
+        """
+        pPointer, qPointer = p, q
+        while pPointer != qPointer:
+            pPointer = pPointer.parent if pPointer else q
+            qPointer = qPointer.parent if qPointer else p
 
-        while pCopy != qCopy:
-            pCopy = pCopy.parent if pCopy else q
-            qCopy = qCopy.parent if qCopy else p
-        
-        return pCopy
+        return pPointer
