@@ -2,7 +2,7 @@
 # This is the interface that allows for creating nested lists.
 # You should not implement it, or speculate about its implementation
 # """
-#class NestedInteger:
+#class NestedInteger(object):
 #    def __init__(self, value=None):
 #        """
 #        If value is not specified, initializes an empty list.
@@ -40,23 +40,28 @@
 #        Return None if this NestedInteger holds a single integer
 #        :rtype List[NestedInteger]
 #        """
+class Solution(object):
+    def depthSum(self, nestedList):
 
-class Solution:
-    def depthSum(self, nestedList: List[NestedInteger]) -> int:
-        # Use a queue approach, we keep track of the current depth, multipling all values in the list at that depth.
-        queue = collections.deque(nestedList)
-        depth = 1
+
+        queue = collections.deque()
+        queue.extend(nestedList)
+
         res = 0
+        depth = 1
 
         while queue:
             for _ in range(len(queue)):
-                currVal = queue.popleft()
+                value = queue.popleft()
 
-                if currVal.isInteger():
-                    res += currVal.getInteger() * depth
+                print(value)
+
+                if value.isInteger():
+                    res += value.getInteger() * depth
                 else:
-                    queue.extend(currVal.getList())
-            
+                    queue.extend(value.getList())
+
             depth += 1
         
         return res
+        
