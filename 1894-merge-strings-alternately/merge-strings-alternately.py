@@ -1,22 +1,25 @@
-class Solution:
-    def mergeAlternately(self, word1: str, word2: str) -> str:
-        word1P, word2P = 0, 0
+class Solution(object):
+    def mergeAlternately(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: str
+        """
+        w1, w2 = 0, 0
+        newString = ""
 
-        newWord = ""
+        while w1 < len(word1) and w2 < len(word2):
+            newString += word1[w1] + word2[w2]
 
-        while word1P < len(word1) and word2P < len(word2):
-            newWord += word1[word1P]
-            newWord += word2[word2P]
-
-            word1P += 1
-            word2P += 1
+            w1 += 1
+            w2 += 1
         
-        while word1P < len(word1):
-            newWord += word1[word1P]
-            word1P += 1
-
-        while word2P < len(word2):
-            newWord += word2[word2P]
-            word2P += 1
+        while w1 < len(word1):
+            newString += word1[w1]
+            w1 += 1
         
-        return newWord
+        while w2 < len(word2):
+            newString += word2[w2]
+            w2 += 1
+        
+        return newString
