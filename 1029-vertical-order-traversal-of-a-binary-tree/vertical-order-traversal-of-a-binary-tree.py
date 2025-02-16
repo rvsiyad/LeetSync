@@ -1,47 +1,43 @@
 # Definition for a binary tree node.
-# class TreeNode:
+# class TreeNode(object):
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import deque
-class Solution:
-    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
-        columnMap = collections.defaultdict(list)
-        queue = deque()
+class Solution(object):
+    def verticalTraversal(self, root):
+        if not root:
+            return []
+        
+        queue = collections.deque()
+        minCol, maxCol = float("inf"), float("-inf")
 
-        minColumn = float("inf")
-        maxColumn = float("-inf")
-
-        # Another func to go through hashmap list and swap places with the value that has the smaller value,
-        # where they have the same coordinates
         queue.append((root, 0, 0))
+        result = []
+        colMap = collections.defaultdict(list)
 
         while queue:
-            for i in range(len(queue)):
+            for _ in range(len(queue)):
                 node, row, col = queue.popleft()
 
-                columnMap[col].append((node.val, row))
+                colMap[col].append((row, node.val))
 
-                minColumn = min(minColumn, col)
-                maxColumn = max(maxColumn, col)
+                minCol = min(minCol, col)
+                maxCol = max(maxCol, col)
 
                 if node.left:
                     queue.append((node.left, row + 1, col - 1))
                 
                 if node.right:
                     queue.append((node.right, row + 1, col + 1))
+
+                
+        for i in range(minCol, maxCol + 1):
+            colNodes = colMap[i]
+
+            colNodes.sort(key = lambda x: (x[0], x[1]))
+
+            result.append([val for row, val in colNodes])
         
-        res = []
-
-        for i in range(minColumn, maxColumn + 1):
-            if i in columnMap:
-                items = columnMap[i]
-
-                items.sort(key=lambda x: (x[1], x[0]))
-
-                res.append([val for val, row in items])
-
-        return res
-
+        return result
 
