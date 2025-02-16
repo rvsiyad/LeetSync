@@ -1,31 +1,23 @@
-class Solution:
-    def customSortString(self, order: str, s: str) -> str:
-        # All characters are unique in order
+class Solution(object):
+    def customSortString(self, order, s):
         """
-        Since all characters are unique, iterate over the order string, adding to a hashmap the index it belongs to
-        this will give us the heirarchy of characters in the string. Save as character : order.
-
-        String s, count occurences of each character, append it x times to string?
+        :type order: str
+        :type s: str
+        :rtype: str
         """
-        # Count occurences of each character:
-        charCount = {}
+        sCount = {}
 
         for char in s:
-            charCount[char] = 1 + charCount.get(char, 0)
+            sCount[char] = 1 + sCount.get(char, 0)
         
-        newString = ""
+        result = ""
 
-        for char in order:
-            if char in charCount:
-                count = charCount.get(char, 0)
-
-                newString += char * count
-                del charCount[char]
+        for letter in order:
+            if letter in sCount:
+                result += letter * sCount[letter]
+                del sCount[letter]
         
-        for char, count in charCount.items():
-            newString += char * count
+        for letter, count in sCount.items():
+            result += letter * count
         
-        return newString
-
-        
-
+        return result
