@@ -1,30 +1,22 @@
-class Solution:
-    def minAddToMakeValid(self, s: str) -> int:
+class Solution(object):
+    def minAddToMakeValid(self, s):
         """
-        - Keep track of the count
-        - If s[i] == '(', we add to stack, increment count by 1
-        - If s[i] == ')'
-            - If stack:
-                - If stack[-1] == '(':
-                    - Count -= 1
-                    - Pop from stack
-            count += 1
-        
-        - return count
+        :type s: str
+        :rtype: int
         """
         count = 0
+
         stack = []
 
-        for i in s:
-            if i == '(':
-                stack.append(i)
+        for bracket in s:
+            if bracket == "(":
+                stack.append(bracket)
                 count += 1
             else:
-                if stack and stack[-1] == '(':
-                        count -= 1
-                        stack.pop()
+                if stack:
+                    stack.pop()
+                    count -= 1
                 else:
                     count += 1
         
         return count
-
