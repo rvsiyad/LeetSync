@@ -1,14 +1,7 @@
-class Solution:
-    def isNumber(self, s: str) -> bool:
-        """
-        - If we encounter a letter other than "e" or "E", return False
-        - If we see a '+' or '-', we cannot seen another until after an exponent(e or E)
-        - If we see a deciaml, we cannot seen one again, even after e
-        - We must see a number at some point
-        """
-
+class Solution(object):
+    def isNumber(self, s):
+        deciamlSeen = False
         numberSeen = False
-        decimalSeen = False
 
         i = 0
 
@@ -16,17 +9,15 @@ class Solution:
             i += 1
         
         while i < len(s):
-            if s[i] in ['e', 'E']:
-                return numberSeen and self.isValidPostExponent(s[i+ 1:])
-            elif s[i].isdigit():
+            if s[i].isdigit():
                 numberSeen = True
+            elif s[i] in ['e', 'E']:
+                return numberSeen and self.validExponent(s[i + 1:])
             elif s[i] == '.':
-                if decimalSeen:
+                if deciamlSeen:
                     return False
                 else:
-                    decimalSeen = True
-            elif s[i] in ['+', '-']:
-                return False
+                    deciamlSeen = True
             else:
                 return False
             
@@ -34,25 +25,21 @@ class Solution:
         
         return numberSeen
     
-
-    def isValidPostExponent(self, postExponent):
-        if not postExponent:
+    def validExponent(self, s):
+        if not s:
             return False
         
         numberSeen = False
-
         i = 0
 
-        if postExponent[i] in ['+', '-']:
+        if s[i] in ['+', '-']:
             i += 1
         
-        while i < len(postExponent):
-            if postExponent[i].isdigit():
+        while i < len(s):
+            if s[i].isdigit():
                 numberSeen = True
-            elif not postExponent[i].isdigit():
+                i += 1
+            else:
                 return False
-            
-            i += 1
         
         return numberSeen
-                
